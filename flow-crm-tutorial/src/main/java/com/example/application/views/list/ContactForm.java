@@ -29,6 +29,8 @@ public class ContactForm extends FormLayout {
     Button delete = new Button("Delete");
     Button cancel = new Button("Cancel");
 
+    Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
+
     public ContactForm(List<Company> companies, List<Status> statuses) {
         addClassName("contact-form");
         binder.bindInstanceFields(this);
@@ -39,22 +41,25 @@ public class ContactForm extends FormLayout {
         status.setItemLabelGenerator(Status::getName);
 
         add(firstName, lastName, email, status, company,
-                createButtonLayout()
+                createButtonsLayout()
         );
     }
 
-    private Component createButtonLayout() {
+    private Component createButtonsLayout() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         save.addClickShortcut(Key.ENTER);
-        delete.addClickShortcut(Key.ESCAPE);
+        cancel.addClickShortcut(Key.ESCAPE);
 
+        save.addClickListener(event -> validateAndSave());
+        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
+        cancel.addClickListener(event -> fireEvent(new CloseEvent(this)));
+
+        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
         return new HorizontalLayout(save, delete, cancel);
     }
-
-    Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
 
     public void setContact(Contact contact) {
         binder.setBean(contact);
@@ -101,22 +106,6 @@ public class ContactForm extends FormLayout {
 
     public Registration addCloseListener(ComponentEventListener<CloseEvent> listener) {
         return addListener(CloseEvent.class, listener);
-    }
-
-    private Component createButtonsLayout() {
-        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-
-        save.addClickShortcut(Key.ENTER);
-        cancel.addClickShortcut(Key.ESCAPE);
-
-        save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
-        cancel.addClickListener(event -> fireEvent(new CloseEvent(this)));
-
-        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
-        return new HorizontalLayout(save, delete, cancel);
     }
 
     private void validateAndSave() {
