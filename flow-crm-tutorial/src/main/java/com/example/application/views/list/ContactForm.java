@@ -108,22 +108,6 @@ public class ContactForm extends FormLayout {
         return addListener(CloseEvent.class, listener);
     }
 
-    private Component createButtonsLayout() {
-        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-
-        save.addClickShortcut(Key.ENTER);
-        cancel.addClickShortcut(Key.ESCAPE);
-
-        save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
-        cancel.addClickListener(event -> fireEvent(new CloseEvent(this)));
-
-        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
-        return new HorizontalLayout(save, delete, cancel);
-    }
-
     private void validateAndSave() {
         if (binder.isValid()) {
             fireEvent(new SaveEvent(this, binder.getBean()));
