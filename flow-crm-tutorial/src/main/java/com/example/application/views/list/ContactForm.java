@@ -39,22 +39,25 @@ public class ContactForm extends FormLayout {
         status.setItemLabelGenerator(Status::getName);
 
         add(firstName, lastName, email, status, company,
-                createButtonLayout()
+                createButtonsLayout()
         );
     }
 
-    private Component createButtonLayout() {
+    private Component createButtonsLayout() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         save.addClickShortcut(Key.ENTER);
-        delete.addClickShortcut(Key.ESCAPE);
+        cancel.addClickShortcut(Key.ESCAPE);
 
+        save.addClickListener(event -> validateAndSave());
+        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
+        cancel.addClickListener(event -> fireEvent(new CloseEvent(this)));
+
+        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
         return new HorizontalLayout(save, delete, cancel);
     }
-
-    Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
 
     public void setContact(Contact contact) {
         binder.setBean(contact);
