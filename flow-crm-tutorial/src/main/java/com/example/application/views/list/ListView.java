@@ -12,9 +12,6 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import java.util.Collections;
-
-
 @PageTitle("Contacts | Vaadin CRM")
 @Route(value = "")
 public class ListView extends VerticalLayout {

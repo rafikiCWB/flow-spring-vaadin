@@ -29,6 +29,8 @@ public class ContactForm extends FormLayout {
     Button delete = new Button("Delete");
     Button cancel = new Button("Cancel");
 
+    Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
+
     public ContactForm(List<Company> companies, List<Status> statuses) {
         addClassName("contact-form");
         binder.bindInstanceFields(this);
