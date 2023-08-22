@@ -5,6 +5,8 @@
 - **Estou usando a IA do IntellijIDEA para fazer os commits.**
 
 - **Tela de Login.**
+- senha: user
+- senha: password
 
 ![image](https://github.com/rafikiCWB/flow-spring-vaadin/assets/60990455/9c382c95-55f9-4265-823a-93254bd992cf)
 
@@ -17,9 +19,7 @@
 ![image](https://github.com/rafikiCWB/flow-spring-vaadin/assets/60990455/ef35a5d8-dd4d-45b2-9b7f-482f2ac865d8)
 
 ## Next steps
-1 Vou trocar a regra de negocio. Provavelmente vou fazer um CRM para adicionar meus livros
 
-2 Escolher um nome para o App
   
   
 
